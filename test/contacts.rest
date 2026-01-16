@@ -1,38 +1,41 @@
-### Test API root
+### Get API root
 GET http://localhost:8080/
 
 ### Get all contacts
 GET http://localhost:8080/contacts
 
-### Get single contact (replace :id with actual contact ID)
-GET http://localhost:8080/contacts/6578a1b2c4e5f6a7b8c9d0e1
+### Get single contact
+GET http://localhost:8080/contacts/64f5a5b5c7d9e8f0a1234567
 
-### Get single contact with invalid ID
-GET http://localhost:8080/contacts/invalid
-
-### Create new contact (Week 2)
+### Create new contact
 POST http://localhost:8080/contacts
 Content-Type: application/json
 
 {
-    "firstName": "John",
-    "lastName": "Doe",
-    "email": "john.doe@example.com",
-    "favoriteColor": "Blue",
-    "birthday": "1990-01-01"
+  "firstName": "Alice",
+  "lastName": "Johnson",
+  "email": "alice.johnson@example.com",
+  "favoriteColor": "Purple",
+  "birthday": "1995-03-15"
 }
 
-### Update contact (Week 2)
-PUT http://localhost:8080/contacts/6578a1b2c4e5f6a7b8c9d0e1
+### Update contact
+PUT http://localhost:8080/contacts/64f5a5b5c7d9e8f0a1234567
 Content-Type: application/json
 
 {
-    "firstName": "Jane",
-    "lastName": "Doe",
-    "email": "jane.doe@example.com",
-    "favoriteColor": "Green",
-    "birthday": "1992-02-02"
+  "firstName": "Robert",
+  "lastName": "Johnson",
+  "email": "robert.johnson@example.com",
+  "favoriteColor": "Red",
+  "birthday": "1993-07-22"
 }
 
-### Delete contact (Week 2)
-DELETE http://localhost:8080/contacts/6578a1b2c4e5f6a7b8c9d0e1
+### Delete contact
+DELETE http://localhost:8080/contacts/64f5a5b5c7d9e8f0a1234567
+
+### Get Swagger documentation
+GET http://localhost:8080/api-docs
+
+### Get Swagger JSON
+GET http://localhost:8080/swagger-output.json
