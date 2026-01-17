@@ -1,41 +1,44 @@
-### Get API root
+### Test API Root
 GET http://localhost:8080/
 
 ### Get all contacts
 GET http://localhost:8080/contacts
 
-### Get single contact
-GET http://localhost:8080/contacts/64f5a5b5c7d9e8f0a1234567
-
-### Create new contact
+### Create a new contact
 POST http://localhost:8080/contacts
 Content-Type: application/json
 
 {
-  "firstName": "Alice",
-  "lastName": "Johnson",
-  "email": "alice.johnson@example.com",
-  "favoriteColor": "Purple",
-  "birthday": "1995-03-15"
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@example.com",
+  "favoriteColor": "Blue",
+  "birthday": "1990-01-15"
 }
 
-### Update contact
-PUT http://localhost:8080/contacts/64f5a5b5c7d9e8f0a1234567
+### Create another contact
+POST http://localhost:8080/contacts
 Content-Type: application/json
 
 {
-  "firstName": "Robert",
-  "lastName": "Johnson",
-  "email": "robert.johnson@example.com",
-  "favoriteColor": "Red",
-  "birthday": "1993-07-22"
+  "firstName": "Jane",
+  "lastName": "Smith",
+  "email": "jane.smith@example.com",
+  "favoriteColor": "Green",
+  "birthday": "1992-03-20"
 }
 
-### Delete contact
-DELETE http://localhost:8080/contacts/64f5a5b5c7d9e8f0a1234567
+### Update contact (replace {{id}} with actual contact ID)
+PUT http://localhost:8080/contacts/{{id}}
+Content-Type: application/json
 
-### Get Swagger documentation
-GET http://localhost:8080/api-docs
+{
+  "firstName": "Jonathan",
+  "lastName": "Doe",
+  "email": "jonathan.doe@example.com",
+  "favoriteColor": "Red",
+  "birthday": "1990-01-15"
+}
 
-### Get Swagger JSON
-GET http://localhost:8080/swagger-output.json
+### Delete contact (replace {{id}} with actual contact ID)
+DELETE http://localhost:8080/contacts/{{id}}

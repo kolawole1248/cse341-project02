@@ -1,4 +1,4 @@
-// server.js - UPDATED VERSION (No models folder needed)
+// server.js - UPDATED VERSION
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -12,8 +12,17 @@ try {
   console.log('✅ Swagger documentation loaded');
 } catch (error) {
   console.warn('⚠️  Swagger documentation not found. Run: npm run swagger');
-  swaggerDocument = { info: { title: 'Contacts API', version: '1.0.0' } };
+  swaggerDocument = { 
+    info: { 
+      title: 'Contacts API', 
+      version: '1.0.0',
+      description: 'API documentation not generated. Run: npm run swagger'
+    } 
+  };
 }
+
+// Initialize contacts controller to setup database connection
+const contactsController = require('./controllers/contactsController');
 
 // Middleware
 app.use(cors());
@@ -48,26 +57,13 @@ try {
   });
 }
 
-// MongoDB connection (commented out since we don't have models folder)
-// const db = require('./models');
-// db.mongoose
-//   .connect(db.url, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true,
-//   })
-//   .then(() => {
-//     console.log('✅ Connected to MongoDB');
-//   })
-//   .catch((err) => {
-//     console.log('❌ Cannot connect to MongoDB:', err.message);
-//   });
-
-// Simple message about MongoDB
+// MongoDB connection info
 require('dotenv').config();
 if (process.env.MONGODB_URI) {
   console.log('📊 MongoDB URI configured');
 } else {
-  console.log('⚠️  MONGODB_URI not found in .env');
+  console.log('⚠️  MONGODB_URI not found in .env - using default');
+  console.log('💡 Create a .env file with: MONGODB_URI=mongodb://localhost:27017/contactsDB');
 }
 
 const PORT = process.env.PORT || 8080;
@@ -86,16 +82,27 @@ app.listen(PORT, () => {
 app.use((err, req, res, next) => {
   console.error('Server error:', err);
   res.status(500).json({
+    success: false,
     error: 'Internal server error',
     message: err.message
   });
 });
 
-// 404 handler
+// 404 handler - MUST BE LAST MIDDLEWARE
 app.use((req, res) => {
   res.status(404).json({
+    success: false,
     error: 'Route not found',
-    message: `The endpoint ${req.method} ${req.url} does not exist`
+    message: `The endpoint ${req.method} ${req.originalUrl} does not exist`,
+    availableEndpoints: {
+      root: 'GET /',
+      getAllContacts: 'GET /contacts',
+      getSingleContact: 'GET /contacts/:id',
+      createContact: 'POST /contacts',
+      updateContact: 'PUT /contacts/:id',
+      deleteContact: 'DELETE /contacts/:id',
+      documentation: 'GET /api-docs'
+    }
   });
 });
 
