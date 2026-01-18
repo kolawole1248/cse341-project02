@@ -1,3 +1,4 @@
+# render.yaml
 services:
   - type: web
     name: contacts-api
@@ -9,5 +10,5 @@ services:
         sync: false
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 10000
+    healthCheckPath: /health
+    autoDeploy: true

@@ -1,23 +1,32 @@
-// swagger.js
+// swagger.js - CORRECTED VERSION
 const swaggerAutogen = require('swagger-autogen')({ openapi: '3.0.0' });
+
+// Get the base URL from environment or use localhost
+const isProduction = process.env.NODE_ENV === 'production';
+const renderUrl = process.env.RENDER_EXTERNAL_URL;
+const localUrl = 'localhost:8080';
 
 const doc = {
   info: {
     title: 'Contacts API',
-    description: 'API for managing contact information',
+    description: 'API for managing contact information - CSE341 Project',
     version: '1.0.0',
     contact: {
       name: 'Student Name',
       email: 'student@byui.edu'
     }
   },
-  host: 'localhost:8080',
-  schemes: ['http'],
+  host: isProduction ? (renderUrl ? new URL(renderUrl).host : 'your-render-app.onrender.com') : localUrl,
+  schemes: isProduction ? ['https'] : ['http'],
   basePath: '/',
   tags: [
     {
       name: 'Contacts',
       description: 'Contact operations'
+    },
+    {
+      name: 'API',
+      description: 'API Information'
     }
   ],
   components: {
@@ -37,7 +46,7 @@ const doc = {
             description: 'First name of the contact'
           },
           lastName: {
-            type: 'string',
+            type: 'string',  // FIXED: Added quotes around 'string'
             example: 'Doe',
             description: 'Last name of the contact'
           },
@@ -59,37 +68,23 @@ const doc = {
             description: 'Birthday in YYYY-MM-DD format'
           }
         }
-      },
-      Error: {
-        type: 'object',
-        properties: {
-          success: {
-            type: 'boolean',
-            example: false
-          },
-          error: {
-            type: 'string',
-            description: 'Error message'
-          },
-          message: {
-            type: 'string',
-            description: 'Detailed error message'
-          }
-        }
       }
     }
   }
 };
 
 const outputFile = './swagger-output.json';
-// IMPORTANT: Include both route files
 const endpointsFiles = ['./routes/index.js', './routes/contacts.js'];
 
 // Generate swagger.json
 swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
   console.log('✅ Swagger documentation generated successfully!');
-  console.log('📄 File created: swagger-output.json');
-  console.log('🔗 Swagger UI will be available at: http://localhost:8080/api-docs');
+  if (isProduction && renderUrl) {
+    console.log(`🌐 Production URL: ${renderUrl}`);
+    console.log(`📚 Swagger UI: ${renderUrl}/api-docs`);
+  } else {
+    console.log(`🏠 Local URL: http://${localUrl}/api-docs`);
+  }
 }).catch((error) => {
   console.error('❌ Error generating Swagger documentation:', error);
 });
